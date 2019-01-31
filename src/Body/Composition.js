@@ -31,8 +31,11 @@ export default class Composition extends React.Component {
       location: null,
       total: null,
       lean: null,
+      isLeanPercentage: true,
       fat: null,
+      isFatPercentage: true,
       water: null,
+      isWaterPercentage: true,
       locationError: null,
       saveError: null
     };
@@ -40,7 +43,7 @@ export default class Composition extends React.Component {
 
   _saveData = async () => {
     try {
-        let {dateTimeStr, location, fat, lean, water} = this.state;
+        let {dateTimeStr, location, fat, lean, water, isFatPercentage, total, isLeanPercentage, isWaterPercentage} = this.state;
 
         if(!dateTimeStr) {
             throw new Error('no datetime')
@@ -58,16 +61,20 @@ export default class Composition extends React.Component {
             data.location = location
         }
 
-        if(fat) {
-            data.fat = fat
+        if((fat && isFatPercentage && total) || (fat && !isFatPercentage)) {
+            data.fat = isFatPercentage ? fat / 100 * total : fat
         }
 
-        if(lean) {
-            data.lean = lean
+        if((lean && isLeanPercentage && total) || (fat && !isLeanPercentage)) {
+            data.lean = isLeanPercentage ? lean / 100 * total : lean
         }
 
-        if(water) {
-            data.water = water
+        if(water && ((isWaterPercentage && total) || !isWaterPercentage)) {
+            data.water = isWaterPercentage ? water / 100 * total : water
+        }
+
+        if(typeof data.fat !== 'undefined' && typeof data.lean !== 'undefined') {
+            data.weight = data.fat + data.lean
         }
 
         await AsyncStorage.setItem(this.state.dateTimeStr, JSON.stringify(data));
@@ -116,11 +123,11 @@ export default class Composition extends React.Component {
     let lean = this.state.lean ? parseFloat(this.state.lean) : null
 
     if(value && fat) {
-        lean =  value - fat;
-        this.setState({total: totalText, lean: lean.toString()}) 
+        lean = this.state.isFatPercentage ? total - (fat / 100 * value) : value - fat;
+        this.setState({total: totalText, lean: this.state.isLeanPercentage ? (lean / value * 100).toString() : lean.toString()}) 
     } else if (value && lean) {
-        fat =  value - lean;
-        this.setState({total: totalText, fat: fat.toString()}) 
+        fat = this.state.isLeanPercentage ? lean / 100 * value : value - lean;
+        this.setState({total: totalText, fat: this.state.isFatPercentage ? (fat / value * 100).toString() : fat.toString()}) 
     } else { 
         this.setState({total: totalText}) 
     }
@@ -132,9 +139,9 @@ export default class Composition extends React.Component {
     let lean = this.state.lean ? parseFloat(this.state.lean) : null
 
     if(value && total) {
-        lean =  total - value;
-        this.setState({fat: fatText, lean: lean.toString()}) 
-    } else if (value && lean) {
+        lean = this.state.isFatPercentage ? total - (value / 100 * total) : total - value;
+        this.setState({fat: fatText, lean: this.state.isLeanPercentage ? (lean / total * 100).toString() : lean.toString()}) 
+    } else if (value && lean && !(this.state.isFatPercentage && this.state.isLeanPercentage)) {
         total =  value + lean;
         this.setState({fat: fatText, total: total.toString()}) 
     } else { 
@@ -148,10 +155,10 @@ export default class Composition extends React.Component {
     let fat = this.state.fat ? parseFloat(this.state.fat) : null
 
     if(value && total) {
-        fat =  total - value;
-        this.setState({lean: leanText, fat: fat.toString()}) 
-    } else if (value && fat) {
-        total =  value + fat;
+        fat = this.state.isLeanPercentage ? total - (value / 100 * total) : total - value;
+        this.setState({lean: leanText, fat: this.state.isFatPercentage ? (fat / total * 100).toString() : fat.toString()}) 
+    } else if (value && fat && !(this.state.isFatPercentage && this.state.isLeanPercentage)) {
+        total = value + fat;
         this.setState({lean: leanText, total: total.toString()}) 
     } else { 
         this.setState({lean: leanText}) 
@@ -191,7 +198,7 @@ export default class Composition extends React.Component {
         </View>
         <View style={ {flexDirection: 'row'} } key={ 'weightView' }>
             <TextInput
-              style={{height: 40, width: 100, borderColor: 'gray', borderWidth: 1}}
+              style={{height: 40, width: 90, borderColor: 'gray', borderWidth: 1}}
               textAlign='center'
               keyboardType='numeric'
               placeholder='Total (kg)'
@@ -200,31 +207,51 @@ export default class Composition extends React.Component {
             />
             <Text>&nbsp;</Text>
             <TextInput
-              style={{height: 40, width: 100, borderColor: 'gray', borderWidth: 1}}
+              style={{height: 40, width: 90, borderColor: 'gray', borderWidth: 1}}
               textAlign='center'
               keyboardType='numeric'
-              placeholder='Gordo (kg)'
+              placeholder='Gordo'
               onChangeText={this._fatHandleChange}
               value={this.state.fat}
             />
+            <Button
+              onPress={() => this.setState({isFatPercentage: !this.state.isFatPercentage, fat: !this.state.total ? null : this.state.isFatPercentage ? (this.state.total * this.state.fat / 100).toString() : (this.state.fat / this.state.total * 100).toString()})}
+              title={this.state.isFatPercentage ? "%" : "kg"}
+              color="#841584"
+              accessibilityLabel="Percentage or kg"
+            />        
             <Text>&nbsp;</Text>
             <TextInput
-              style={{height: 40, width: 100, borderColor: 'gray', borderWidth: 1}}
+              style={{height: 40, width: 90, borderColor: 'gray', borderWidth: 1}}
               textAlign='center'
               keyboardType='numeric'
-              placeholder='Magro (kg)'
+              placeholder='Magro'
               onChangeText={this._leanHandleChange}
               value={this.state.lean}
             />
+            <Button
+              onPress={() => this.setState({isLeanPercentage: !this.state.isLeanPercentage, lean: !this.state.total ? null : this.state.isLeanPercentage ? (this.state.total * this.state.lean / 100).toString() : (this.state.lean / this.state.total * 100).toString() })}
+              title={this.state.isLeanPercentage ? "%" : "kg"}
+              color="#841584"
+              accessibilityLabel="Percentage or kg"
+            />        
         </View>
-        <TextInput
-          style={{height: 40, width: 100, borderColor: 'gray', borderWidth: 1}}
-          textAlign='center'
-          keyboardType='numeric'
-          placeholder='Agua (L)'
-          onChangeText={(text) => this.setState({water: text})}
-          value={this.state.water}
-        />
+        <View style={ {flexDirection: 'row'} } key={ 'waterView' }>
+            <TextInput
+              style={{height: 40, width: 90, borderColor: 'gray', borderWidth: 1}}
+              textAlign='center'
+              keyboardType='numeric'
+              placeholder='Agua'
+              onChangeText={(text) => this.setState({water: text})}
+              value={this.state.water}
+            />
+            <Button
+              onPress={() => this.setState({isWaterPercentage: !this.state.isWaterPercentage, water: !this.state.total ? null : this.state.isWaterPercentage ? (this.state.total * this.state.water / 100).toString() : (this.state.water / this.state.total * 100).toString() })}
+              title={this.state.isWaterPercentage ? "%" : "L"}
+              color="#841584"
+              accessibilityLabel="Percentage or kg"
+            />        
+        </View>
         <Button
           onPress={this._saveData}
           title="Salvar"
