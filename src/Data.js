@@ -42,7 +42,7 @@ class Data extends Component {
     try {
       const keys = await AsyncStorage.getAllKeys();
       if (keys && keys.length > 0) {
-        let mappedExams = []
+        let mappedDatas = []
 
         for(x=0; x<= keys.length-1; x++) {
             let key = keys[x]
@@ -53,8 +53,8 @@ class Data extends Component {
                 let {weight, location, fat, lean, water, chest, abdomen, waist, hip, armLeft, armRight, forearmLeft, forearmRight, legLeft, legRight, calfLeft, calfRight } = JSON.parse(value)
                   
                 if(typeof weight !== 'undefined') {
-                  mappedExams.push({
-                      "@odata.type": '#Data.Models.ExamDecimal',
+                  mappedDatas.push({
+                      "@odata.type": '#Data.Models.DataDecimal',
                       GroupId: 'BFDF8F5E-C514-416D-B6B0-35B196F5CA96',
                       CollectionDate: date,
                       DecimalValue: parseFloat(weight)
@@ -62,8 +62,8 @@ class Data extends Component {
                 }
 
                 if(typeof location !== 'undefined') {
-                  mappedExams.push({
-                      "@odata.type": '#Data.Models.ExamString',
+                  mappedDatas.push({
+                      "@odata.type": '#Data.Models.DataString',
                       GroupId: '4665DB6B-38B5-4F19-9833-A8AD61DB1587',
                       CollectionDate: date,
                       StringValue: location
@@ -71,8 +71,8 @@ class Data extends Component {
                 }
 
                 if(typeof fat !== 'undefined') {
-                  mappedExams.push({
-                    "@odata.type": '#Data.Models.ExamDecimal',
+                  mappedDatas.push({
+                    "@odata.type": '#Data.Models.DataDecimal',
                     GroupId: '79D91946-706E-4856-9817-54AB1B0D92F3',
                     CollectionDate: date,
                     DecimalValue: parseFloat(fat)
@@ -80,8 +80,8 @@ class Data extends Component {
                 }
 
                 if(typeof lean !== 'undefined') {
-                  mappedExams.push({
-                    "@odata.type": '#Data.Models.ExamDecimal',
+                  mappedDatas.push({
+                    "@odata.type": '#Data.Models.DataDecimal',
                     GroupId: '756B8511-0584-4A74-ADAE-DCEF307F6D94',
                     CollectionDate: date,
                     DecimalValue: parseFloat(lean)
@@ -89,8 +89,8 @@ class Data extends Component {
                 }
 
                 if(typeof water !== 'undefined') {
-                  mappedExams.push({
-                    "@odata.type": '#Data.Models.ExamDecimal',
+                  mappedDatas.push({
+                    "@odata.type": '#Data.Models.DataDecimal',
                     GroupId: 'AEA37732-4EFB-42B3-BC7D-813014A6038D',
                     CollectionDate: date,
                     DecimalValue: parseFloat(water)
@@ -98,8 +98,8 @@ class Data extends Component {
                 }
 
                 if(typeof chest !== 'undefined') {
-                  mappedExams.push({
-                    "@odata.type": '#Data.Models.ExamDecimal',
+                  mappedDatas.push({
+                    "@odata.type": '#Data.Models.DataDecimal',
                     GroupId: '42A39668-8556-407F-853B-50D6B570043B',
                     CollectionDate: date,
                     DecimalValue: parseFloat(chest)
@@ -107,8 +107,8 @@ class Data extends Component {
                 }
 
                 if(typeof abdomen !== 'undefined') {
-                  mappedExams.push({
-                    "@odata.type": '#Data.Models.ExamDecimal',
+                  mappedDatas.push({
+                    "@odata.type": '#Data.Models.DataDecimal',
                     GroupId: '53D1F102-83E4-44E7-A958-00E0305D7878',
                     CollectionDate: date,
                     DecimalValue: parseFloat(abdomen)
@@ -116,8 +116,8 @@ class Data extends Component {
                 }
 
                 if(typeof waist !== 'undefined') {
-                  mappedExams.push({
-                    "@odata.type": '#Data.Models.ExamDecimal',
+                  mappedDatas.push({
+                    "@odata.type": '#Data.Models.DataDecimal',
                     GroupId: 'B68C2344-97C7-4623-B988-ACFB1E493EAA',
                     CollectionDate: date,
                     DecimalValue: parseFloat(waist)
@@ -125,8 +125,8 @@ class Data extends Component {
                 }
 
                 if(typeof hip !== 'undefined') {
-                  mappedExams.push({
-                    "@odata.type": '#Data.Models.ExamDecimal',
+                  mappedDatas.push({
+                    "@odata.type": '#Data.Models.DataDecimal',
                     GroupId: 'EFDBC084-E3FF-428A-B892-F186D9EBA293',
                     CollectionDate: date,
                     DecimalValue: parseFloat(hip)
@@ -134,8 +134,8 @@ class Data extends Component {
                 }
 
                 if(typeof armLeft !== 'undefined') {
-                  mappedExams.push({
-                    "@odata.type": '#Data.Models.ExamDecimal',
+                  mappedDatas.push({
+                    "@odata.type": '#Data.Models.DataDecimal',
                     GroupId: 'C08804CA-CA2F-4766-A4A6-BD16B435D6E4',
                     CollectionDate: date,
                     DecimalValue: parseFloat(armLeft)
@@ -143,8 +143,8 @@ class Data extends Component {
                 }
 
                 if(typeof armRight !== 'undefined') {
-                  mappedExams.push({
-                    "@odata.type": '#Data.Models.ExamDecimal',
+                  mappedDatas.push({
+                    "@odata.type": '#Data.Models.DataDecimal',
                     GroupId: '92E6CAB8-570B-49E4-8EED-210EA4AA47CF',
                     CollectionDate: date,
                     DecimalValue: parseFloat(armRight)
@@ -152,8 +152,8 @@ class Data extends Component {
                 }
 
                 if(typeof forearmLeft !== 'undefined') {
-                  mappedExams.push({
-                    "@odata.type": '#Data.Models.ExamDecimal',
+                  mappedDatas.push({
+                    "@odata.type": '#Data.Models.DataDecimal',
                     GroupId: 'B09F8C25-4FBE-4958-AC2A-6E3E975DB4D8',
                     CollectionDate: date,
                     DecimalValue: parseFloat(forearmLeft)
@@ -161,8 +161,8 @@ class Data extends Component {
                 }
 
                 if(typeof forearmRight !== 'undefined') {
-                  mappedExams.push({
-                    "@odata.type": '#Data.Models.ExamDecimal',
+                  mappedDatas.push({
+                    "@odata.type": '#Data.Models.DataDecimal',
                     GroupId: 'D98DB4B6-99A4-4BC2-8FDD-3D0C0F03D783',
                     CollectionDate: date,
                     DecimalValue: parseFloat(forearmRight)
@@ -170,8 +170,8 @@ class Data extends Component {
                 }
 
                 if(typeof legLeft !== 'undefined') {
-                  mappedExams.push({
-                    "@odata.type": '#Data.Models.ExamDecimal',
+                  mappedDatas.push({
+                    "@odata.type": '#Data.Models.DataDecimal',
                     GroupId: '6E0F569E-D32D-49DC-B748-CAE562395EEA',
                     CollectionDate: date,
                     DecimalValue: parseFloat(legLeft)
@@ -179,8 +179,8 @@ class Data extends Component {
                 }
 
                 if(typeof legRight !== 'undefined') {
-                  mappedExams.push({
-                    "@odata.type": '#Data.Models.ExamDecimal',
+                  mappedDatas.push({
+                    "@odata.type": '#Data.Models.DataDecimal',
                     GroupId: '363425A9-BDDC-4144-8106-94B302E660A3',
                     CollectionDate: date,
                     DecimalValue: parseFloat(legRight)
@@ -188,8 +188,8 @@ class Data extends Component {
                 }
 
                 if(typeof calfLeft !== 'undefined') {
-                  mappedExams.push({
-                    "@odata.type": '#Data.Models.ExamDecimal',
+                  mappedDatas.push({
+                    "@odata.type": '#Data.Models.DataDecimal',
                     GroupId: '922F8296-27B9-4B32-948B-DCFC6D9B6549',
                     CollectionDate: date,
                     DecimalValue: parseFloat(calfLeft)
@@ -197,8 +197,8 @@ class Data extends Component {
                 }
 
                 if(typeof calfRight !== 'undefined') {
-                  mappedExams.push({
-                    "@odata.type": '#Data.Models.ExamDecimal',
+                  mappedDatas.push({
+                    "@odata.type": '#Data.Models.DataDecimal',
                     GroupId: '8430AB70-181F-4AC0-A674-D545363AB3D9',
                     CollectionDate: date,
                     DecimalValue: parseFloat(calfRight)
@@ -215,15 +215,15 @@ class Data extends Component {
               'Content-Type': 'application/json',
               'Cache': 'no-cache'
             },
-            body: JSON.stringify({ "Exams": mappedExams})
+            body: JSON.stringify({ "Datas": mappedDatas})
         }
 
-        if(mappedExams.length > 0) {
+        if(mappedDatas.length > 0) {
             try {
-                await fetch('http://192.168.15.250/data/odata/v4/exams/BulkInsert', obj);
+                await fetch('http://192.168.15.250/data/odata/v4/datas/BulkInsert', obj);
                 AsyncStorage.clear();
             } catch (err) {
-                await fetch('http://mypc01.ddns.net/data/odata/v4/exams/BulkInsert', obj);
+                await fetch('http://mypc01.ddns.net/data/odata/v4/datas/BulkInsert', obj);
                 AsyncStorage.clear();
             }
         }
