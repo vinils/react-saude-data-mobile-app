@@ -220,10 +220,10 @@ class Data extends Component {
 
         if(mappedDatas.length > 0) {
             try {
-                await fetch('http://192.168.15.250/data/odata/v4/datas/BulkInsert', obj);
+                await fetch('http://' + '192.168.15.151:8002/odata/v4' + '/datas/BulkInsert', obj);
                 AsyncStorage.clear();
             } catch (err) {
-                await fetch('http://mypc01.ddns.net/data/odata/v4/datas/BulkInsert', obj);
+                await fetch('http://' + 'mypc01.ddns.net:8002/odata/v4' + '/datas/BulkInsert', obj);
                 AsyncStorage.clear();
             }
         }
