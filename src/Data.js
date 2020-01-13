@@ -50,8 +50,8 @@ class Data extends Component {
 
             if(date) {
                 let value = await AsyncStorage.getItem(key)
-                let {weight, location, fat, lean, water, chest, abdomen, waist, hip, armLeft, armRight, forearmLeft, forearmRight, legLeft, legRight, calfLeft, calfRight } = JSON.parse(value)
-                  
+                let { weight, location, fat, lean, water, chest, abdomen, waist, hip, armLeft, armRight, forearmLeft, forearmRight, legLeft, legRight, calfLeft, calfRight } = JSON.parse(value);
+
                 if(typeof weight !== 'undefined') {
                   mappedDatas.push({
                       "@odata.type": '#Data.Models.DataDecimal',
@@ -220,11 +220,9 @@ class Data extends Component {
 
         if(mappedDatas.length > 0) {
             try {
-                await fetch('http://' + '192.168.15.151:8002/odata/v4' + '/datas/BulkInsert', obj);
-                AsyncStorage.clear();
+                await fetch('http://' + '192.168.15.139:8002/odata' + '/datas/BulkInsert', obj);
             } catch (err) {
-                await fetch('http://' + 'mypc01.ddns.net:8002/odata/v4' + '/datas/BulkInsert', obj);
-                AsyncStorage.clear();
+                await fetch('http://' + 'mypc01.ddns.net:8002/odata' + '/datas/BulkInsert', obj);
             }
         }
       }
