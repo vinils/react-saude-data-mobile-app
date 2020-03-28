@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { StyleSheet, Text, View, Button, AsyncStorage } from 'react-native';
+import { StyleSheet, Text, TextInput, View, Button, AsyncStorage } from 'react-native';
 
 const CommonStyles = {
   generalFontSize: 14,
@@ -27,6 +27,9 @@ class Data extends Component {
     this.state = {
       loadDataError: null,
       loadedTime: null,
+      loadDataUrl1: 'mypc01.ddns.net:8002/odata',
+      loadDataUrl2: '192.168.15.147:8002/odata',
+      loadDataUrl3: 'dckMyHealth1:8002/odata',
     };
   }
 
@@ -38,7 +41,7 @@ class Data extends Component {
       )
   }
 
-  _loadData = async () => {
+  _loadData = async (loadDataUrl) => {
     try {
       const keys = await AsyncStorage.getAllKeys();
       if (keys && keys.length > 0) {
@@ -219,11 +222,7 @@ class Data extends Component {
         }
 
         if(mappedDatas.length > 0) {
-            try {
-                await fetch('http://' + '192.168.15.139:8002/odata' + '/datas/BulkInsert', obj);
-            } catch (err) {
-                await fetch('http://' + 'mypc01.ddns.net:8002/odata' + '/datas/BulkInsert', obj);
-            }
+          await fetch('http://' + loadDataUrl + '/datas/BulkInsert', obj);
         }
       }
 
@@ -238,20 +237,55 @@ class Data extends Component {
   render () {
     return (
       <View style={_styles.container}>
-        <View style={ {margin: 12, flexDirection: 'row'} } key={ 'loadDataView' }>
+        <View style={ {margin: 12, flexDirection: 'row'} } key={ 'clean' }>
             <Button
               onPress={() => {AsyncStorage.clear(); this.setState({loadedTime: new Date()})}}
               title="Clear Data"
               color="#841584"
               accessibilityLabel="Clear Data"
             />        
-            <Text>&nbsp;</Text>
+        </View>
+        <View style={ {margin: 12, flexDirection: 'row'} } key={ 'loadData1' }>
             <Button
-              onPress={this._loadData}
-              title="Upload Data"
+              onPress={() => this._loadData(this.state.loadDataUrl1)}
+              title="Upload"
               color="#841584"
               accessibilityLabel="Upload Data"
             />        
+            <Text>&nbsp;</Text>
+            <TextInput
+              style={{height: 40, width: 200, borderColor: 'gray', borderWidth: 1}}
+              onChangeText={(text) => this.setState({loadDataUrl1: text})}
+              value={this.state.loadDataUrl1}
+            />
+        </View>
+        <View style={ {margin: 12, flexDirection: 'row'} } key={ 'loadData2' }>
+            <Button
+              onPress={() => this._loadData(this.state.loadDataUrl2)}
+              title="Upload"
+              color="#841584"
+              accessibilityLabel="Upload Data"
+            />        
+            <Text>&nbsp;</Text>
+            <TextInput
+              style={{height: 40, width: 200, borderColor: 'gray', borderWidth: 1}}
+              onChangeText={(text) => this.setState({loadDataUrl2: text})}
+              value={this.state.loadDataUrl2}
+            />
+        </View>
+        <View style={ {margin: 12, flexDirection: 'row'} } key={ 'loadData3' }>
+            <Button
+              onPress={() => this._loadData(this.state.loadDataUrl3)}
+              title="Upload"
+              color="#841584"
+              accessibilityLabel="Upload Data"
+            />        
+            <Text>&nbsp;</Text>
+            <TextInput
+              style={{height: 40, width: 200, borderColor: 'gray', borderWidth: 1}}
+              onChangeText={(text) => this.setState({loadDataUrl3: text})}
+              value={this.state.loadDataUrl3}
+            />
         </View>
 
         { this.state.loadDataError ? this._getDescription(this.state.loadDataError) : null }

@@ -1,8 +1,17 @@
 {
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vinils/react-saude-data-mobile-app.git"
+  },
+  "bugs": {
+    "url": "https://github.com/vinils/react-saude-data-mobile-app/issues"
+  },
+  "homepage": "https://github.com/vinils/react-saude-data-mobile-app",
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
+    "buildandroid": "expo build:android",
     "ios": "expo start --ios",
     "eject": "expo eject"
   },
